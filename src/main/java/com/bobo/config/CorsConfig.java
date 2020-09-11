@@ -1,0 +1,35 @@
+package com.bobo.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+/**
+ * @author bobo
+ * @date 2020-09-08
+ */
+@Configuration
+public class CorsConfig {
+    private CorsConfiguration buildConfig(){
+        CorsConfiguration corsConfiguration=new CorsConfiguration();
+        //允许跨域请求的地址，*表示所有
+        corsConfiguration.addAllowedOrigin("*");
+        //配置跨域的请求头
+        corsConfiguration.addAllowedHeader("*");
+        //配置跨域请求方法
+        corsConfiguration.addAllowedMethod("*");
+        //表示跨域请求的时候是否使用的是同一个session
+        corsConfiguration.setAllowCredentials(true);
+        return corsConfiguration;
+    }
+
+    @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource source=new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",buildConfig());
+        return new CorsFilter(source);
+    }
+}
